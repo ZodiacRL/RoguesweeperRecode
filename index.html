@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Collection</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        min-height: 100%;
+    }
+
+    body {
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+        color: #12345a;
+        background:
+            radial-gradient(circle at 20% 10%, rgba(255,255,255,.95) 0 5%, transparent 20%),
+            linear-gradient(#c8f0ff 0%, #7dd6ef 42%, #58b7dc 100%);
+        background-attachment: fixed;
+        padding: 30px 14px 50px;
+    }
+
+    /* Decorative sky bubbles */
+    body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: .35;
+        background:
+            radial-gradient(ellipse at 75% 18%, white 0 3%, transparent 3.5%),
+            radial-gradient(ellipse at 82% 21%, white 0 2%, transparent 2.5%),
+            radial-gradient(ellipse at 16% 28%, white 0 4%, transparent 4.5%);
+    }
+
+    .site {
+        width: min(1000px, 100%);
+        margin: auto;
+    }
+
+    .window {
+        background: #ece9d8;
+        border: 1px solid #003c9d;
+        border-radius: 9px 9px 5px 5px;
+        overflow: hidden;
+        box-shadow:
+            0 5px 18px rgba(0, 50, 100, .35),
+            inset 0 0 0 1px rgba(255,255,255,.6);
+    }
+
+    .titlebar {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 10px;
+        color: white;
+        background:
+            linear-gradient(to bottom,
+                #75b9ff 0%,
+                #3d91ed 9%,
+                #1267d9 48%,
+                #0751c4 52%,
+                #2d83e8 92%,
+                #65aaf5 100%);
+        border-bottom: 1px solid #003c9d;
+        text-shadow: 1px 1px 2px #174b91;
+    }
+
+    .titlebar .logo-small {
+        width: 31px;
+        height: 31px;
+        object-fit: contain;
+        background: rgba(255,255,255,.2);
+        border-radius: 5px;
+    }
+
+    .title {
+        flex: 1;
+        font-size: 19px;
+        font-weight: bold;
+    }
+
+    .window-buttons {
+        display: flex;
+        gap: 4px;
+    }
+
+    .window-button {
+        width: 23px;
+        height: 22px;
+        border: 1px solid #174d98;
+        border-radius: 3px;
+        background: linear-gradient(#6eb4fa, #1265ce);
+        color: white;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 18px;
+        text-align: center;
+        box-shadow: inset 1px 1px rgba(255,255,255,.5);
+    }
+
+    .window-button.close {
+        background: linear-gradient(#ff927a, #d83c24);
+        border-color: #8c1c0e;
+    }
+
+    .content {
+        padding: 20px;
+        background:
+            linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.75)),
+            #e8f7ff;
+    }
+
+    .logo-area {
+        text-align: center;
+        padding: 8px 10px 24px;
+    }
+
+    .main-logo {
+        max-width: min(520px, 90%);
+        max-height: 150px;
+        object-fit: contain;
+        filter: drop-shadow(0 3px 2px rgba(0,80,130,.22));
+    }
+
+    .intro {
+        max-width: 760px;
+        margin: 0 auto 20px;
+        padding: 12px 16px;
+        text-align: center;
+        background: linear-gradient(#ffffff, #d9f2ff);
+        border: 1px solid #8db9d6;
+        border-radius: 7px;
+        box-shadow: inset 0 1px white, 0 1px 3px rgba(0,80,120,.15);
+    }
+
+    .intro h1 {
+        margin: 0 0 5px;
+        color: #0757aa;
+        font-size: 25px;
+    }
+
+    .intro p {
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .items {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+        gap: 16px;
+    }
+
+    .item {
+        overflow: hidden;
+        background: linear-gradient(#ffffff, #edfaff);
+        border: 1px solid #86abc5;
+        border-radius: 7px;
+        box-shadow:
+            inset 0 1px white,
+            0 2px 5px rgba(0,75,115,.18);
+    }
+
+    .item-image-wrap {
+        padding: 8px;
+        background: linear-gradient(#dff5ff, #b9e7f8);
+        border-bottom: 1px solid #86abc5;
+    }
+
+    .item-image {
+        display: block;
+        width: 100%;
+        height: 190px;
+        object-fit: contain;
+        background: white;
+        border: 1px solid #a5c7d9;
+        border-radius: 4px;
+    }
+
+    .item-body {
+        padding: 12px 14px 15px;
+    }
+
+    .item-title {
+        margin: 0 0 7px;
+        color: #0757aa;
+        font-size: 18px;
+    }
+
+    .item-description {
+        margin: 0;
+        color: #31516b;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    .footer {
+        margin-top: 18px;
+        padding: 10px;
+        color: #31516b;
+        font-size: 11px;
+        text-align: center;
+    }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 10px 6px 25px;
+        }
+
+        .content {
+            padding: 12px;
+        }
+
+        .title {
+            font-size: 15px;
+        }
+
+        .window-buttons {
+            display: none;
+        }
+
+        .item-image {
+            height: 160px;
+        }
+    }
+</style>
+</head>
+
+<body>
+<div class="site">
+    <div class="window">
+
+        <!-- WINDOWS XP STYLE TITLE BAR -->
+        <div class="titlebar">
+            <!-- Small icon in the title bar -->
+            <img class="logo-small" src="images/logo.png" alt="Logo">
+
+            <div class="title">My Collection</div>
+
+            <div class="window-buttons">
+                <div class="window-button">_</div>
+                <div class="window-button">□</div>
+                <div class="window-button close">X</div>
+            </div>
+        </div>
+
+        <main class="content">
+
+            <!-- MAIN LOGO -->
+            <div class="logo-area">
+                <img class="main-logo" src="images/logo.png" alt="My Collection">
+            </div>
+
+            <!-- INTRODUCTION -->
+            <section class="intro">
+                <h1>Welcome!</h1>
+                <p>
+                    A little collection of things. Add whatever you want here.
+                </p>
+            </section>
+
+            <!--
+                ============================================================
+                ADD / REMOVE ITEMS HERE
+                ============================================================
+
+                To add an item, copy one of the blocks below.
+
+                image:
+                    Put your image inside the "images" folder and change
+                    the filename, for example:
+                    images/my-picture.png
+
+                title:
+                    Change the text inside <h2>.
+
+                description:
+                    Change the text inside <p>.
+
+                To remove an item, delete its entire <article> block.
+                ============================================================
+            -->
+
+            <section class="items">
+
+                <!-- ITEM 1 -->
+                <article class="item">
+                    <div class="item-image-wrap">
+                        <img class="item-image" src="images/example1.png" alt="Example image">
+                    </div>
+                    <div class="item-body">
+                        <h2 class="item-title">Example Item</h2>
+                        <p class="item-description">
+                            This is an example description. Replace this with
+                            whatever information you want to display.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- ITEM 2 -->
+                <article class="item">
+                    <div class="item-image-wrap">
+                        <img class="item-image" src="images/example2.png" alt="Another example">
+                    </div>
+                    <div class="item-body">
+                        <h2 class="item-title">Another Item</h2>
+                        <p class="item-description">
+                            You can add as many of these cards as you want.
+                            They will automatically arrange themselves into rows.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- ITEM 3 -->
+                <article class="item">
+                    <div class="item-image-wrap">
+                        <img class="item-image" src="images/example3.png" alt="Third example">
+                    </div>
+                    <div class="item-body">
+                        <h2 class="item-title">Third Item</h2>
+                        <p class="item-description">
+                            Images can be PNG, JPG, JPEG, GIF, or other formats
+                            supported by the browser.
+                        </p>
+                    </div>
+                </article>
+
+            </section>
+
+            <div class="footer">
+                Made with HTML & CSS
+            </div>
+
+        </main>
+    </div>
+</div>
+</body>
+</html>
